@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Still With Us?</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #6b9f6e;
+    --green-dark: #3d5e3f;
+    --green-deep: #2a3f2b;
+    --green-light: #e8f0e8;
+    --cream: #f4f1ea;
+    --cream-dark: #e0dbd0;
+    --off-white: #fafaf7;
+    --text: #1a1a18;
+    --muted: #5a5a52;
+    --light: #8a8a80;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* SCREENS */
+  .screen {
+    display: none;
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease;
+  }
+  .screen.active { display: flex; flex-direction: column; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCREEN 1: LANDING ── */
+  #s-landing {
+    background: var(--green);
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #s-landing::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 70%, rgba(42,63,43,0.4) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .landing-content { position: relative; z-index: 1; max-width: 480px; }
+  .landing-eyebrow {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(244,241,234,0.55); font-weight: 500;
+    margin-bottom: 2rem;
+  }
+  .landing-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(4rem, 18vw, 7rem);
+    font-weight: 800; line-height: 0.88;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+  .landing-sub {
+    font-size: 1rem; color: rgba(244,241,234,0.75);
+    line-height: 1.6; margin-bottom: 3rem;
+    font-weight: 300;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--cream);
+    color: var(--green-dark);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    border: none; cursor: pointer;
+    border-radius: 0;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: white; transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    display: inline-block;
+    background: transparent;
+    color: rgba(244,241,234,0.65);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(244,241,234,0.25);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1rem;
+  }
+  .btn-ghost:hover { border-color: rgba(244,241,234,0.6); color: var(--cream); }
+
+  /* ── SCREEN 2: NOTICE PROMPT ── */
+  #s-notice {
+    background: var(--off-white);
+    justify-content: center;
+    padding: 3rem 2rem;
+  }
+  .notice-inner {
+    max-width: 500px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 2rem;
+  }
+  .screen-tag {
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--green); font-weight: 600;
+  }
+  .screen-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.02em; color: var(--green-dark);
+  }
+  .screen-body {
+    font-size: 0.95rem; color: var(--muted); line-height: 1.7;
+  }
+  .notice-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .notice-list li {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--cream);
+    border-left: 3px solid var(--green);
+  }
+  .notice-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem; font-weight: 800;
+    color: var(--green); line-height: 1; flex-shrink: 0;
+  }
+  .notice-list li p {
+    font-size: 0.9rem; color: var(--muted); line-height: 1.5; padding-top: 0.2rem;
+  }
+  .btn-dark {
+    background: var(--green-dark); color: var(--cream);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 1rem 2.5rem; border: none; cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-dark:hover { background: var(--green-deep); transform: translateY(-1px); }
+
+  /* ── SCREEN 3: OBSERVATION FORM ── */
+  #s-form {
+    background: var(--off-white);
+  }
+  .form-header {
+    background: var(--green-dark);
+    padding: 3rem 2rem 2.5rem;
+  }
+  .form-header .screen-tag { color: rgba(255,255,255,0.45); }
+  .form-header .screen-title { color: var(--cream); }
+  .form-header .screen-body { color: rgba(244,241,234,0.65); margin-top: 0.75rem; }
+
+  .form-body {
+    padding: 2.5rem 2rem;
+    max-width: 560px;
+    display: flex; flex-direction: column; gap: 1.75rem;
+  }
+
+  .field-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .field-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--green-dark);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .field-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--green); color: white;
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .field-input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    background: white;
+    border: 1px solid var(--cream-dark);
+    border-radius: 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; color: var(--text);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .field-input:focus { border-color: var(--green); }
+  .field-input::placeholder { color: var(--light); font-style: italic; }
+
+  .consent-box {
+    background: var(--cream);
+    border: 1px solid var(--cream-dark);
+    padding: 1.25rem 1.25rem;
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .consent-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    color: var(--green-dark); letter-spacing: 0.02em;
+  }
+  .consent-text {
+    font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+  }
+  .consent-options { display: flex; flex-direction: column; gap: 0.5rem; }
+  .consent-option {
+    display: flex; align-items: center; gap: 0.75rem;
+    cursor: pointer; padding: 0.6rem 0.75rem;
+    border: 1px solid var(--cream-dark); background: white;
+    transition: border-color 0.2s;
+  }
+  .consent-option:hover { border-color: var(--green); }
+  .consent-option input[type="radio"] { accent-color: var(--green); }
+  .consent-option span { font-size: 0.88rem; color: var(--text); }
+
+  .submit-row { display: flex; flex-direction: column; gap: 0.5rem; }
+  .submit-note { font-size: 11px; color: var(--light); letter-spacing: 0.02em; }
+
+  /* ── SCREEN 4: LOADING ── */
+  #s-loading {
+    background: var(--green-dark);
+    justify-content: center; align-items: center;
+    text-align: center; padding: 3rem 2rem;
+  }
+  .loading-ring {
+    width: 60px; height: 60px;
+    border: 2px solid rgba(244,241,234,0.15);
+    border-top-color: var(--cream);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 2rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--cream); margin-bottom: 0.75rem;
+  }
+  .loading-sub { font-size: 0.9rem; color: rgba(244,241,234,0.5); }
+
+  /* ── SCREEN 5: RESULTS (AI) ── */
+  #s-results {
+    background: var(--off-white);
+  }
+  .results-header {
+    background: var(--green);
+    padding: 3rem 2rem 2.5rem;
+  }
+  .results-header .screen-tag { color: rgba(255,255,255,0.5); }
+  .results-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 800; line-height: 1.05;
+    color: var(--cream); letter-spacing: -0.02em;
+    margin-top: 0.5rem;
+  }
+  .results-sub { font-size: 0.9rem; color: rgba(244,241,234,0.7); margin-top: 0.75rem; }
+
+  .results-body {
+    padding: 2.5rem 2rem;
+    max-width: 560px;
+    display: flex; flex-direction: column; gap: 1.25rem;
+  }
+  .result-card {
+    background: white;
+    border: 1px solid var(--cream-dark);
+    padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 0.75rem;
+    animation: slideUp 0.4s ease both;
+  }
+  .result-card:nth-child(2) { animation-delay: 0.1s; }
+  .result-card:nth-child(3) { animation-delay: 0.2s; }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .result-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--green);
+  }
+  .result-suggestion {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--green-dark); line-height: 1.3;
+  }
+  .result-body-text {
+    font-size: 0.88rem; color: var(--muted); line-height: 1.6;
+  }
+  .why-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--green); font-weight: 600;
+    cursor: pointer; border: none; background: none;
+    padding: 0; text-decoration: underline; text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+  .why-link:hover { color: var(--green-dark); }
+
+  /* static fallback */
+  .fallback-note {
+    background: var(--cream);
+    border-left: 3px solid var(--green);
+    padding: 1rem 1.25rem;
+    font-size: 0.85rem; color: var(--muted); line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── SCREEN 6: WHY MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(26,26,24,0.7);
+    justify-content: center; align-items: flex-end;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--off-white);
+    width: 100%; max-width: 520px;
+    padding: 2rem 2rem 2.5rem;
+    animation: slideUp 0.3s ease;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 800;
+    color: var(--green-dark);
+  }
+  .modal-close {
+    background: none; border: none; cursor: pointer;
+    font-size: 1.2rem; color: var(--muted); padding: 0.2rem;
+  }
+  .modal-body { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .modal-body strong { color: var(--green-dark); }
+  .modal-logic {
+    background: var(--cream);
+    padding: 1rem 1.25rem;
+    font-size: 0.82rem; color: var(--muted);
+    line-height: 1.6; font-style: italic;
+    border-left: 3px solid var(--green);
+  }
+  .modal-footer {
+    font-size: 11px; color: var(--light); letter-spacing: 0.04em;
+    padding-top: 0.5rem; border-top: 1px solid var(--cream-dark);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    height: 2px; background: var(--cream-dark);
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%; background: var(--green);
+    transition: width 0.4s ease;
+  }
+
+  /* ── BACK BUTTON ── */
+  .back-btn {
+    background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted); padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--cream-dark);
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.2s;
+  }
+  .back-btn:hover { color: var(--green-dark); }
+
+  /* ── ERROR ── */
+  .error-msg {
+    background: #fef2f2; border: 1px solid #fecaca;
+    padding: 0.75rem 1rem; font-size: 0.85rem; color: #991b1b;
+    display: none;
+  }
+  .error-msg.visible { display: block; }
+
+  /* phone frame hint */
+  .phone-hint {
+    font-size: 10px; color: rgba(244,241,234,0.35);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 3rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SCREEN 1: LANDING — "you still with us?"
+     Appears when QR code is scanned
+════════════════════════════════════════ -->
+<div id="s-landing" class="screen active">
+  <div class="landing-content">
+    <p class="landing-eyebrow">A Savannah-wide scavenger hunt</p>
+    <h1 class="landing-title">still<br>with<br>us?</h1>
+    <p class="landing-sub">Welcome. You found one of our posters.<br>Now put your phone down — after this, I mean.</p>
+    <button class="btn-primary" onclick="goTo('s-notice')">great. feel free to flip over your tab and come find us!</button>
+    <br>
+    <button class="btn-ghost" onclick="goTo('s-notice')">or just keep reading →</button>
+    <p class="phone-hint">no data collection · no tricks</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 2: NOTICE — "notice 3 things"
+     Prompted before Location 1
+════════════════════════════════════════ -->
+<div id="s-notice" class="screen">
+  <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+  <button class="back-btn" onclick="goTo('s-landing')">← back</button>
+  <div class="notice-inner" style="padding: 2.5rem 2rem;">
+    <span class="screen-tag">before you get there</span>
+    <h2 class="screen-title">try to notice three things you wouldn't usually.</h2>
+    <p class="screen-body">On your way to the first stop, look around. Really look. We'll ask you to share what you noticed — but only if you want to. Here are some examples:</p>
+    <ul class="notice-list">
+      <li>
+        <span class="notice-num">1</span>
+        <p>A sound you'd normally tune out — birds, water, footsteps on brick.</p>
+      </li>
+      <li>
+        <span class="notice-num">2</span>
+        <p>Something growing where you wouldn't expect it — moss, flowers, a tree root.</p>
+      </li>
+      <li>
+        <span class="notice-num">3</span>
+        <p>A person doing something quietly interesting — reading, sketching, eating alone.</p>
+      </li>
+    </ul>
+    <p class="screen-body" style="font-style: italic; font-size: 0.85rem;">Remember them. They'll be important later — but that's not a requirement. Just an invitation.</p>
+    <button class="btn-dark" onclick="goTo('s-form')">I'm ready. take me to Location 1 →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 3: OBSERVATION FORM
+     At Location 1 (map booth)
+════════════════════════════════════════ -->
+<div id="s-form" class="screen">
+  <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+  <button class="back-btn" onclick="goTo('s-notice')">← back</button>
+  <div class="form-header">
+    <span class="screen-tag">location 1 · the map booth</span>
+    <h2 class="screen-title">you made it.<br>what did you notice?</h2>
+    <p class="screen-body">Enter your three observations below. A volunteer will hand you your map once you're done — whether you share your observations or not.</p>
+  </div>
+  <div class="form-body">
+    <div class="field-group">
+      <label class="field-label"><span class="field-num">1</span> First observation</label>
+      <input class="field-input" id="obs1" type="text" placeholder="what did you see, hear, or feel?" maxlength="120" />
+    </div>
+    <div class="field-group">
+      <label class="field-label"><span class="field-num">2</span> Second observation</label>
+      <input class="field-input" id="obs2" type="text" placeholder="something unexpected, maybe?" maxlength="120" />
+    </div>
+    <div class="field-group">
+      <label class="field-label"><span class="field-num">3</span> Third observation</label>
+      <input class="field-input" id="obs3" type="text" placeholder="anything else that caught your attention?" maxlength="120" />
+    </div>
+
+    <div class="consent-box">
+      <p class="consent-title">before we continue — a quick question.</p>
+      <p class="consent-text">If you'd like, we can use your three observations to generate personalized suggestions of things to look for at Orleans Square. This is entirely optional. Your responses will not be stored — the AI uses them once to make suggestions, then they're gone.</p>
+      <div class="consent-options">
+        <label class="consent-option">
+          <input type="radio" name="consent" value="yes" id="consent-yes" />
+          <span>Yes — use my observations to personalize my experience</span>
+        </label>
+        <label class="consent-option">
+          <input type="radio" name="consent" value="no" id="consent-no" checked />
+          <span>No thanks — just give me the standard Orleans Square guide</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="error-msg" id="form-error">Please fill in at least one observation before continuing.</div>
+
+    <div class="submit-row">
+      <button class="btn-dark" onclick="handleSubmit()">get my field guide →</button>
+      <p class="submit-note">p.s. your responses will not be used for data collection. do we have permission to use your responses to personalize suggestions? that's what the above choice is for.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 4: LOADING
+════════════════════════════════════════ -->
+<div id="s-loading" class="screen">
+  <div class="progress-bar"><div class="progress-fill" style="width:75%; background: rgba(255,255,255,0.4);"></div></div>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:3rem 2rem;">
+    <div class="loading-ring"></div>
+    <h2 class="loading-title">reading your observations...</h2>
+    <p class="loading-sub">the ai is working purely from what you told it.<br>no outside sources. no profiles. just you.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 5A: AI RESULTS
+     Personalized field guide
+════════════════════════════════════════ -->
+<div id="s-results" class="screen">
+  <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+  <button class="back-btn" onclick="goTo('s-landing')">← start over</button>
+  <div class="results-header">
+    <span class="screen-tag">your field guide · orleans square</span>
+    <h2 class="results-title" id="results-heading">your next stop is for the memories.</h2>
+    <p class="results-sub">you won't need me until the end of this experience, so feel free to put me back in your pocket. reach for me again at the finish line!</p>
+  </div>
+  <div class="results-body" id="results-container">
+    <!-- populated by JS -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 5B: STATIC FALLBACK
+     For users who declined consent
+════════════════════════════════════════ -->
+<div id="s-static" class="screen">
+  <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+  <button class="back-btn" onclick="goTo('s-landing')">← start over</button>
+  <div class="results-header" style="background: var(--green-dark);">
+    <span class="screen-tag" style="color: rgba(255,255,255,0.4);">orleans square essentials</span>
+    <h2 class="results-title">your orleans square field guide.</h2>
+    <p class="results-sub">no personalization — just the good stuff everyone should notice.</p>
+  </div>
+  <div class="results-body">
+    <div class="fallback-note">
+      These are the Orleans Square Essentials — the things worth noticing that most people walk right past.
+    </div>
+    <div class="result-card">
+      <span class="result-num">Essential 01</span>
+      <p class="result-suggestion">The fountain at the center</p>
+      <p class="result-body-text">Built in 1989, the Orleans Square fountain is one of Savannah's quieter landmarks. Sit near it for five minutes and notice how the sound changes depending on where you stand. Most people photograph it. Few actually listen to it.</p>
+    </div>
+    <div class="result-card">
+      <span class="result-num">Essential 02</span>
+      <p class="result-suggestion">The Spanish moss in the live oaks</p>
+      <p class="result-body-text">Spanish moss isn't a parasite — it's an air plant that takes nothing from the tree. It collects moisture from the air. Look for how it moves differently from the leaves when the wind picks up. It's one of the few things in Savannah that hasn't changed in 200 years.</p>
+    </div>
+    <div class="result-card">
+      <span class="result-num">Essential 03</span>
+      <p class="result-suggestion">The Cherokee Rose along the borders</p>
+      <p class="result-body-text">The official state flower of Georgia. White petals, yellow center. It blooms in spring and tends to appear in the quieter corners of Savannah's squares. If you noticed flowers on your way here and didn't know what they were — there's a good chance it was these.</p>
+    </div>
+    <div style="padding: 1rem 0; border-top: 1px solid var(--cream-dark); margin-top: 0.5rem;">
+      <p style="font-size: 0.82rem; color: var(--light); line-height: 1.6;">now put your phone down. your blanket, camera, and a food truck are waiting.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: "Why am I seeing this?"
+════════════════════════════════════════ -->
+<div class="modal-overlay" id="why-modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">why am i seeing this?</h3>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <p class="modal-body" id="modal-body-text">Loading...</p>
+    <div class="modal-logic" id="modal-logic-text"></div>
+    <p class="modal-footer">the ai did not pull from outside sources or profiles. it worked purely from the information you provided. your observations have not been stored and will not be used again.</p>
+  </div>
+</div>
+
+<script>
+// ── NAVIGATION ──
+function goTo(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── FORM SUBMIT ──
+async function handleSubmit() {
+  const obs1 = document.getElementById('obs1').value.trim();
+  const obs2 = document.getElementById('obs2').value.trim();
+  const obs3 = document.getElementById('obs3').value.trim();
+  const consent = document.querySelector('input[name="consent"]:checked').value;
+  const err = document.getElementById('form-error');
+
+  if (!obs1 && !obs2 && !obs3) {
+    err.classList.add('visible');
+    return;
+  }
+  err.classList.remove('visible');
+
+  // Store observations for modal explanations
+  window._observations = { obs1, obs2, obs3 };
+
+  if (consent === 'no') {
+    goTo('s-static');
+    return;
+  }
+
+  goTo('s-loading');
+
+  try {
+    const suggestions = await callClaude(obs1, obs2, obs3);
+    renderResults(suggestions, obs1, obs2, obs3);
+    goTo('s-results');
+  } catch (e) {
+    // Fallback to static if API fails
+    console.error(e);
+    goTo('s-static');
+  }
+}
+
+// ── DEMO MODE: Smart personalized responses using actual observations ──
+async function callClaude(obs1, obs2, obs3) {
+  // Simulate a realistic loading delay so it feels like real AI processing
+  await new Promise(r => setTimeout(r, 2800));
+
+  // Pull keywords from observations to make responses feel genuinely personalized
+  const all = [obs1, obs2, obs3].join(' ').toLowerCase();
+
+  // Keyword detection pools
+  const heardSound   = /sound|hear|heard|noise|quiet|loud|music|bird|water|fountain|footstep|wind|rustl/i.test(all);
+  const sawPeople    = /person|people|someone|man|woman|child|kid|crowd|alone|walk|sitting|reading|sketch/i.test(all);
+  const sawNature    = /tree|flower|moss|grass|leaf|leaves|plant|grow|branch|pollen|root|garden|green/i.test(all);
+  const sawLight     = /light|shadow|sun|shade|bright|dark|glare|reflect|glow|warm|color|colour/i.test(all);
+  const sawBuilding  = /build|brick|wall|window|door|arch|column|street|road|sign|lamp|post|fence/i.test(all);
+  const sawAnimal    = /bird|dog|cat|squirrel|bug|insect|butterfly|bee|ant|caterpillar|animal/i.test(all);
+  const feltSomething = /feel|felt|smell|smelled|touch|warm|cold|breeze|air|breath|pollen|skin/i.test(all);
+
+  // Build 3 responses, each tied to one observation
+  const suggestions = [
+    buildSuggestion1(obs1, { heardSound, sawNature, sawLight, sawBuilding, sawAnimal, feltSomething, sawPeople }),
+    buildSuggestion2(obs2, { heardSound, sawNature, sawLight, sawBuilding, sawAnimal, feltSomething, sawPeople }),
+    buildSuggestion3(obs3, { heardSound, sawNature, sawLight, sawBuilding, sawAnimal, feltSomething, sawPeople }),
+  ];
+
+  return suggestions;
+}
+
+function buildSuggestion1(obs, flags) {
+  // First suggestion — tied to sound/nature/feeling
+  if (flags.heardSound) {
+    return {
+      title: "Find the quietest spot near the fountain",
+      body: "The Orleans Square fountain has a sound radius — there's a specific bench on the northwest path where the water drowns out the street noise almost completely. Most people walk right past it. Stand there for sixty seconds with your eyes closed.",
+      why: `You mentioned noticing a sound on your way here. That kind of attentiveness is rare. The fountain at Orleans has three distinct acoustic zones depending on where you stand — you're exactly the kind of person who'd notice the difference.`
+    };
+  }
+  if (flags.sawNature) {
+    return {
+      title: "The live oak in the northwest corner",
+      body: "There's a live oak in the northwest corner of the square that's estimated to be over 150 years old. The Spanish moss hanging from it isn't a parasite — it's an air plant that takes nothing from the tree and has been there almost as long. Look up into it.",
+      why: `You noticed something growing on your walk here. That instinct to look at what's living and what's thriving — bring that to the oaks. The moss in this square has outlasted most of the buildings around it.`
+    };
+  }
+  return {
+    title: "The Spanish moss up close",
+    body: "Spanish moss looks like decoration from a distance, but up close it's a living ecosystem. It's not attached to the tree for nutrients — it collects everything it needs from the air and rain. Find a low-hanging strand and look at the tiny scale-like structures along each thread.",
+    why: `Based on what you noticed on your walk, you were paying attention to things most people tune out. The moss is one of those details — visible everywhere, understood by almost nobody.`
+  };
+}
+
+function buildSuggestion2(obs, flags) {
+  // Second suggestion — tied to people/light/building
+  if (flags.sawPeople) {
+    return {
+      title: "The way strangers share space here",
+      body: "Orleans Square is one of Savannah's least touristy squares, which means the people here are mostly locals — students, residents, people on lunch breaks. Watch how they navigate around each other without speaking. There's a kind of quiet choreography to it.",
+      why: `You noticed a person doing something on your way here. That observation — catching someone in a private moment in a public space — is the whole spirit of this square. It's worth continuing.`
+    };
+  }
+  if (flags.sawLight) {
+    return {
+      title: "How the light moves through the canopy",
+      body: "On a clear day, the live oaks create a shifting pattern of light and shadow across the brick paths. It changes every few minutes as the leaves move. Pick a fixed point on the ground and watch it for two minutes — it'll look completely different by the time you're done.",
+      why: `You noticed something about light or color on your walk here. The canopy in Orleans does something similar — it turns the square into a kind of slow-moving sundial if you're paying attention.`
+    };
+  }
+  if (flags.sawBuilding) {
+    return {
+      title: "The Federal-style rowhouses on the perimeter",
+      body: "The buildings surrounding Orleans Square are some of the best-preserved examples of Federal architecture in Savannah. Look at the brickwork on the corners — the pattern changes at the joints, which was a deliberate structural technique. Most people photograph the square and never look at what's holding it together.",
+      why: `You noticed architecture or built environment on your walk here. The buildings around Orleans are easy to miss precisely because they're so uniform — but the details in the brickwork and ironwork are worth a closer look.`
+    };
+  }
+  return {
+    title: "The brick path pattern underfoot",
+    body: "The herringbone brick pattern in Orleans Square was laid in a specific orientation to direct rainwater toward the drains — form following function from 1815. Look at how the pattern shifts near the fountain. It's one of those things that becomes impossible to unsee once you notice it.",
+    why: `You were paying attention to your surroundings on the walk here. The ground underfoot in this square is as intentional as anything above it — and most people never look down.`
+  };
+}
+
+function buildSuggestion3(obs, flags) {
+  // Third suggestion — always leads toward the picnic / sensory experience
+  if (flags.feltSomething) {
+    return {
+      title: "Sit directly on the grass, not a bench",
+      body: "The grass in the center quadrants of Orleans is actual Savannah soil — not imported turf. It's a different texture and temperature than you'd expect. Spread your blanket on the northwest quadrant, which stays shadier in the afternoon and tends to stay cooler.",
+      why: `You noticed a physical sensation on your walk — temperature, texture, something in the air. That same attentiveness translates directly to what it feels like to actually sit in this square rather than pass through it.`
+    };
+  }
+  if (flags.sawAnimal) {
+    return {
+      title: "The caterpillars in the oak canopy",
+      body: "Orleans Square is known locally for its seasonal caterpillar overflow — they drop from the live oaks on silk threads in spring. Look up into the lower canopy branches before you spread your blanket. They're harmless, just extremely present. It's one of those Savannah details that locals mention with a kind of resigned affection.",
+      why: `You noticed something alive and moving on your walk here. The square has its own version of that — the caterpillar situation is a rite of passage for anyone who spends real time in Orleans.`
+    };
+  }
+  return {
+    title: "Stay longer than you planned to",
+    body: "The best thing Orleans Square offers isn't a landmark or a view — it's the specific quality of time that passes there. Spread your blanket somewhere away from the path. Use your disposable camera. Eat something. The square has a way of making twenty minutes feel like an hour, in the best possible way.",
+    why: `Everything you noticed on your walk here — the small things, the easy-to-miss things — those are the same things that make Orleans worth staying in. You're already looking the right way.`
+  };
+}
+
+// ── RENDER RESULTS ──
+function renderResults(suggestions, obs1, obs2, obs3) {
+  const container = document.getElementById('results-container');
+  container.innerHTML = '';
+
+  suggestions.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.innerHTML = `
+      <span class="result-num">discovery 0${i + 1}</span>
+      <p class="result-suggestion">${s.title}</p>
+      <p class="result-body-text">${s.body}</p>
+      <button class="why-link" onclick="openModal('${escapeStr(s.why)}', '${escapeStr([obs1,obs2,obs3][i] || obs1)}')">
+        why am i seeing this? →
+      </button>
+    `;
+    container.appendChild(card);
+  });
+
+  // Pocket prompt
+  const footer = document.createElement('div');
+  footer.style.cssText = 'padding: 1.5rem 0; border-top: 1px solid var(--cream-dark); margin-top: 0.5rem;';
+  footer.innerHTML = `<p style="font-size:0.82rem; color:var(--light); line-height:1.6;">now put your phone back in your pocket. your blanket, your camera, and a food truck are waiting at orleans square.</p>`;
+  container.appendChild(footer);
+}
+
+function escapeStr(str) {
+  return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, ' ');
+}
+
+// ── MODAL ──
+function openModal(why, obs) {
+  document.getElementById('modal-body-text').innerHTML =
+    `You shared this observation: <strong>"${obs}"</strong><br><br>Here's how the AI connected it to this suggestion:`;
+  document.getElementById('modal-logic-text').textContent = why;
+  document.getElementById('why-modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('why-modal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('why-modal').classList.remove('open');
+}
+</script>
+</body>
+</html>
